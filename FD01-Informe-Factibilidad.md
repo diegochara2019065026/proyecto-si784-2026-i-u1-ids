@@ -137,7 +137,10 @@ La falta de equipos adecuados o acceso restringido a redes reales puede dificult
 
     3.1. Planteamiento del problema
 
-            Describa antecedentes y situación actual, explicando la problemática y/o necesidad que será resuelta con el proyecto propuesto.
+Actualmente, muchas redes no cuentan con mecanismos eficientes para detectar intrusiones o actividades sospechosas en tiempo real, lo que permite que ataques o accesos no autorizados pasen desapercibidos.
+La falta de herramientas accesibles para el monitoreo del tráfico de red dificulta la identificación de comportamientos anómalos, generando riesgos en la integridad, confidencialidad y disponibilidad de la información.
+Además, las soluciones existentes en el mercado suelen requerir altos costos y conocimientos técnicos avanzados, lo que limita su uso en entornos académicos o de pequeña escala.
+Ante esta problemática, surge la necesidad de desarrollar un sistema básico de detección de intrusos (IDS) que permita monitorear el tráfico de red, identificar posibles amenazas mediante reglas simples y generar alertas oportunas, contribuyendo así a mejorar la seguridad de la red.
 
     3.2. Consideraciones de hardware y software
 
