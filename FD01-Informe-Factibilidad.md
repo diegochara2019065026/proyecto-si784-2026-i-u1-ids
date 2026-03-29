@@ -128,6 +128,15 @@ El tiempo asignado para el desarrollo puede no ser suficiente para implementar t
 La falta de equipos adecuados o acceso restringido a redes reales puede dificultar las pruebas del sistema en escenarios reales.
 
 
+2.5 Riesgo de implementación técnica
+
+Existe el riesgo de dificultades en la integración de librerías de captura de paquetes como pcap4j en Java, lo cual podría afectar tareas como:
+- [BACK-04] Captura de paquetes
+- [BACK-05] Parser de paquetes
+
+
+
+
 
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
@@ -177,6 +186,14 @@ Describir los resultados que esperan alcanzar del estudio de factibilidad, las a
 El estudio de viabilidad técnica se enfoca en obtener un entendimiento de los recursos tecnológicos disponibles actualmente y su aplicabilidad a las necesidades que se espera tenga el proyecto. En el caso de tecnología informática esto implica una evaluación del hardware y software y como este puede cubrir las necesidades del sistema propuesto.
 Realizar una evaluación de la tecnología actual existente y la posibilidad de utilizarla en el desarrollo e implantación del sistema.*
 Describir acerca del hardware (equipos, servidor), software (aplicaciones, navegadores, sistemas operativos, dominio, internet, infraestructura de red física, etc.
+
+El sistema será desarrollado utilizando tecnologías accesibles como:
+Lenguaje: Java
+Librería de red: pcap4j
+Gestión del desarrollo: GitHub Issues
+
+El desarrollo se organizará mediante tareas técnicas (Issues), permitiendo una implementación progresiva del sistema IDS.
+
 
     4.2.Factibilidad Económica
 
