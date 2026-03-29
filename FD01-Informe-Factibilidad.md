@@ -382,6 +382,9 @@ Se consideran los siguientes aspectos:
 **Evaluación:** El impacto ambiental del proyecto es mínimo y no presenta conflictos ambientales.**La factibilidad ambiental es ALTA.**
 
 
+
+
+
 5. **Análisis Financiero**
 
 El plan financiero se ocupa del análisis de ingresos y gastos asociados a cada proyecto, desde el punto de vista del instante temporal en que se producen. Su misión fundamental es detectar situaciones financieramente inadecuadas.
