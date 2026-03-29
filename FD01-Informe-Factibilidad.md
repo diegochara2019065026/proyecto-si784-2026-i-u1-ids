@@ -173,13 +173,13 @@ Ante esta problemática, surge la necesidad de desarrollar un sistema básico de
 
 Describir los resultados que esperan alcanzar del estudio de factibilidad, las actividades que se realizaron para preparar la evaluación de factibilidad y por quien fue aprobado.
 
-    4.1.##Factibilidad Técnica
+    4.1.Factibilidad Técnica
 
 El estudio de viabilidad técnica se enfoca en obtener un entendimiento de los recursos tecnológicos disponibles actualmente y su aplicabilidad a las necesidades que se espera tenga el proyecto. En el caso de tecnología informática esto implica una evaluación del hardware y software y como este puede cubrir las necesidades del sistema propuesto.
 Realizar una evaluación de la tecnología actual existente y la posibilidad de utilizarla en el desarrollo e implantación del sistema.*
 Describir acerca del hardware (equipos, servidor), software (aplicaciones, navegadores, sistemas operativos, dominio, internet, infraestructura de red física, etc.
 
-    4.2. <span id="_Toc52661351" class="anchor"></span>Factibilidad Económica
+    4.2.Factibilidad Económica
 
 El propósito del estudio de viabilidad económica, es determinar los beneficios económicos del proyecto o sistema propuesto para la organización, en contraposición con los costos.
 Como se mencionó anteriormente en el estudio de factibilidad técnica wvaluar si la institución (departamento de TI) cuenta con las herramientas necesarias para la implantación del sistema y evaluar si la propuesta requiere o no de una inversión inicial en infraestructura informática.
@@ -234,7 +234,7 @@ Definir los siguientes costos:
 | Costos de Personal   | Desarrollo del sistema (2 personas)              | 1600.00          |
 | **TOTAL GENERAL**    |                                                  | **2025.00**      |
 
-    4.3. <span id="_Toc52661352" class="anchor"></span>Factibilidad Operativa
+    4.3.Factibilidad Operativa
 
 En el presente proyecto, el sistema básico de detección de intrusos (IDS) será implementado en modo de prueba en la Universidad Privada de Tacna, específicamente en un entorno académico controlado. Esta implementación permitirá evaluar su funcionamiento sin afectar la operatividad real de la red institucional.
 
@@ -266,34 +266,33 @@ Revisión de registros (logs)
 Verificación del correcto funcionamiento
 
 
-    4.4. <span id="_Toc52661353" class="anchor"></span>Factibilidad Legal
+    4.4.Factibilidad Legal
 
-        Determinar si existe conflicto del proyecto con restricciones legales como leyes y regulaciones del país o locales relacionadas con seguridad, protección de datos, conducta de negocio, empleo y adquisiciones.
+Determinar si existe conflicto del proyecto con restricciones legales como leyes y regulaciones del país o locales relacionadas con seguridad, protección de datos, conducta de negocio, empleo y adquisiciones.
 
-    4.5. <span id="_Toc52661354" class="anchor"></span>Factibilidad Social 
+    4.5.Factibilidad Social 
 
         Evaluar influencias y asuntos de índole social y cultural como el clima político, códigos de conducta y ética*
 
-    4.6. <span id="_Toc52661355" class="anchor"></span>Factibilidad Ambiental
+    4.6.Factibilidad Ambiental
 
         Evaluar influencias y asuntos de índole ambiental como el impacto y repercusión en el medio ambiente.
 
-<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
-5. <span id="_Toc52661356" class="anchor"></span>**Análisis Financiero**
+5. **Análisis Financiero**
 
-    El plan financiero se ocupa del análisis de ingresos y gastos asociados a cada proyecto, desde el punto de vista del instante temporal en que se producen. Su misión fundamental es detectar situaciones financieramente inadecuadas.
-    Se tiene que estimar financieramente el resultado del proyecto.
+El plan financiero se ocupa del análisis de ingresos y gastos asociados a cada proyecto, desde el punto de vista del instante temporal en que se producen. Su misión fundamental es detectar situaciones financieramente inadecuadas.
+Se tiene que estimar financieramente el resultado del proyecto.
 
     5.1. Justificación de la Inversión
 
         5.1.1. Beneficios del Proyecto
 
-            El beneficio se calcula como el margen económico menos los costes de oportunidad, que son los márgenes que hubieran podido obtenerse de haber dedicado el capital y el esfuerzo a otras actividades.
-            El beneficio, obtenido lícitamente, no es sólo una recompensa a la inversión, al esfuerzo y al riesgo asumidos por el empresario, sino que también es un factor esencial para que las empresas sigan en el  mercado e incorporen nuevas inversiones al tejido industrial y social de las naciones.
-            Describir beneficios tangibles e intangibles*
-            Beneficios tangibles: son de fácil cuantificación, generalmente están relacionados con la reducción de recursos o talento humano.
-            Beneficios intangibles: no son fácilmente cuantificables y están relacionados con elementos o mejora en otros procesos de la organización.
+El beneficio se calcula como el margen económico menos los costes de oportunidad, que son los márgenes que hubieran podido obtenerse de haber dedicado el capital y el esfuerzo a otras actividades.
+El beneficio, obtenido lícitamente, no es sólo una recompensa a la inversión, al esfuerzo y al riesgo asumidos por el empresario, sino que también es un factor esencial para que las empresas sigan en el  mercado e incorporen nuevas inversiones al tejido industrial y social de las naciones.
+Describir beneficios tangibles e intangibles*
+Beneficios tangibles: son de fácil cuantificación, generalmente están relacionados con la reducción de recursos o talento humano.
+Beneficios intangibles: no son fácilmente cuantificables y están relacionados con elementos o mejora en otros procesos de la organización.
 >
             Ejemplo de beneficios:
 
