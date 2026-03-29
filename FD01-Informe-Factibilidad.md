@@ -97,15 +97,11 @@ Desarrollar un sistema básico de detección de intrusos (IDS) capaz de monitore
 
         1.4.2 Objetivos Específicos
         
--Capturar paquetes de red en tiempo real
-
--Analizar el tráfico mediante reglas predefinidas
-
--Detectar comportamientos anómalos
-
--Generar alertas ante posibles intrusiones
-
--Evaluar el funcionamiento mediante pruebas de software
+- Implementar un módulo de captura de paquetes de red en tiempo real mediante librerías especializadas
+- Desarrollar un sistema de análisis basado en reglas para identificar patrones de tráfico sospechoso 
+- Detectar comportamientos anómalos como escaneo de puertos o intentos de acceso repetidos 
+- Generar alertas clasificadas según el nivel de riesgo detectado 
+- Validar el sistema mediante pruebas funcionales e integración 
             
             Para cada objetivo específico se indicara que se va a lograr
 
@@ -130,6 +126,9 @@ El tiempo asignado para el desarrollo puede no ser suficiente para implementar t
 2.4. Recursos limitados
 
 La falta de equipos adecuados o acceso restringido a redes reales puede dificultar las pruebas del sistema en escenarios reales.
+
+
+
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
