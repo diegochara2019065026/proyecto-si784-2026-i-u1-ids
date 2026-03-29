@@ -173,7 +173,7 @@ Ante esta problemática, surge la necesidad de desarrollar un sistema básico de
 
 Describir los resultados que esperan alcanzar del estudio de factibilidad, las actividades que se realizaron para preparar la evaluación de factibilidad y por quien fue aprobado.
 
-    4.1. <span id="_Toc52661350" class="anchor"></span>Factibilidad Técnica
+    4.1.##Factibilidad Técnica
 
 El estudio de viabilidad técnica se enfoca en obtener un entendimiento de los recursos tecnológicos disponibles actualmente y su aplicabilidad a las necesidades que se espera tenga el proyecto. En el caso de tecnología informática esto implica una evaluación del hardware y software y como este puede cubrir las necesidades del sistema propuesto.
 Realizar una evaluación de la tecnología actual existente y la posibilidad de utilizarla en el desarrollo e implantación del sistema.*
