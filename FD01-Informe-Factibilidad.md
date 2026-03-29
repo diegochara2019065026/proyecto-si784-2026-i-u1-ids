@@ -144,7 +144,27 @@ Ante esta problemática, surge la necesidad de desarrollar un sistema básico de
 
     3.2. Consideraciones de hardware y software
 
-            Hardware y software posibles para la implementación, se analizara lo que existe y es alcanzable, se evaluara que tecnología se puede > utilizar en el proyecto.
+ ### 💻 Hardware requerido
+
+| Recurso            | Especificación                                  | Descripción |
+|------------------|-----------------------------------------------|-------------|
+| Procesador        | Intel Core i3 o equivalente en adelante        | Permite ejecutar el sistema de monitoreo sin problemas |
+| Memoria RAM       | 4 GB mínimo (8 GB recomendado)                 | Necesaria para análisis de tráfico en tiempo real |
+| Almacenamiento    | 250 GB disponibles                            | Espacio para sistema y almacenamiento de logs |
+| Tarjeta de red    | Compatible con modo promiscuo                  | Permite capturar paquetes de red |
+| Conectividad      | Red local (LAN o Wi-Fi)                        | Necesaria para monitoreo del tráfico |
+
+### 🧰 Software requerido
+
+| Software                | Tipo / Versión        | Propósito |
+|------------------------|----------------------|----------|
+| Sistema operativo      | Windows / Linux / macOS | Ejecución del sistema (Linux recomendado) |
+| Python                 | 3.x                  | Lenguaje de desarrollo |
+| Scapy                  | Librería Python      | Captura y análisis de paquetes |
+| Socket                 | Librería estándar    | Manejo básico de red |
+| Visual Studio Code     | IDE                  | Desarrollo del sistema |
+| Flask (opcional)       | Framework web        | Interfaz de visualización |
+| Git                    | Control de versiones | Gestión del código fuente |
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
