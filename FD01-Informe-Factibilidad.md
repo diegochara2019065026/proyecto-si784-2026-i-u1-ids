@@ -10,7 +10,7 @@
 
 **Escuela Profesional de Ingeniería de Sistemas**
 
-**Proyecto *{Nombre de Proyecto}***
+**Proyecto *TrafficWatch IDS***
 
 Curso: *CALIDAD Y PRUEBAS DE SOFTWARE*
 
