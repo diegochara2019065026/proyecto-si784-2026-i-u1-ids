@@ -7,7 +7,7 @@
 
 **Escuela Profesional de Ingeniería de Sistemas**
 
-**Proyecto *Analizador de Dependencias Java***
+**Proyecto *TrafficWatch IDS***
 
 Curso: *Calidad y Pruebas de Software*
 
@@ -15,9 +15,9 @@ Docente: *Patrick Cuadros Quiroga*
 
 Integrantes:
 
-***Carbajal Vargas, Andre Alejandro (2023077287)***
+***Edgar Diego Chara Apaza        (2019065026)***  
+***Abel Fernando Pacompía Ortiz   (2023076797)***
 
-***Yupa Gómez, Fátima Sofía (2023076618)***
 
 **Tacna – Perú**
 
@@ -27,16 +27,17 @@ Integrantes:
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
-Sistema *Analizador de Dependencias Java (JavaDepAnalyzer)*
+Sistema *Desarrollo de un sistema de detección de intrusos (IDS) para monitoreo de tráfico de red*
 
 Informe de Especificación de Requerimientos
 
 Versión *1.0*
 
+
 | CONTROL DE VERSIONES |           |              |               |            |                 |
 |:--------------------:|:----------|:-------------|:--------------|:-----------|:----------------|
 |       Versión        | Hecha por | Revisada por | Aprobada por  | Fecha      | Motivo          |
-|         1.0          | ACV, FYG  | ACV, FYG     | P. Cuadros Q. | 2026-04-22 | Versión inicial |
+|         1.0          | APO, ECA  | APO, ECA     | P. Cuadros Q. | 2026-04-27 | Versión inicial |
 
 # ÍNDICE GENERAL
 
