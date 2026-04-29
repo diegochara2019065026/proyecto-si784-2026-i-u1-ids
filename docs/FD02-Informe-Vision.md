@@ -28,17 +28,6 @@ Integrantes:
 </center>
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
-|CONTROL DE VERSIONES||||||
-| :-: | :- | :- | :- | :- | :- |
-|Versión|Hecha por|Revisada por|Aprobada por|Fecha|Motivo|
-|1\.0|MPV|ELV|ARV|04/04/2026|Versión Original|
-
-
-
-
-
-
-
 
 
 
@@ -53,10 +42,10 @@ Integrantes:
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
-|CONTROL DE VERSIONES||||||
-| :-: | :- | :- | :- | :- | :- |
-|Versión|Hecha por|Revisada por|Aprobada por|Fecha|Motivo|
-|1\.0|MPV|ELV|ARV|04/04/20260|Versión Original|
+| CONTROL DE VERSIONES |           |              |               |            |                 |
+|:--------------------:|:----------|:-------------|:--------------|:-----------|:----------------|
+|       Versión        | Hecha por | Revisada por | Aprobada por  | Fecha      | Motivo          |
+|         1.0          | APO, ECA  | APO, ECA     | P. Cuadros Q. | 2026-04-14 | Versión inicial |
 
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
