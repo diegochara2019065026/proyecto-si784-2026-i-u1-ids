@@ -31,10 +31,11 @@ Informe de Arquitectura de Software
 
 Versión *1.0*
 
-| CONTROL DE VERSIONES |           |              |               |            |                 |
-|:--------------------:|:----------|:-------------|:--------------|:-----------|:----------------|
-|       Versión        | Hecha por | Revisada por | Aprobada por  | Fecha      | Motivo          |
-|         1.0          | APO, ECA  | APO, ECA     | P. Cuadros Q. | 2026-04-29 | Versión inicial |
+| CONTROL DE VERSIONES |           |              |               |            |                                      |
+|:--------------------:|:----------|:-------------|:--------------|:-----------|:-------------------------------------|
+|       Versión        | Hecha por | Revisada por | Aprobada por  | Fecha      | Motivo                               |
+|         1.0          | APO, ECA  | APO, ECA     | P. Cuadros Q. | 2026-04-29 | Versión inicial del documento        |
+|         1.1          | APO, ECA  | APO, ECA     | P. Cuadros Q. | 2026-05-01 | Realización del documento |
 
 # ÍNDICE GENERAL
 
