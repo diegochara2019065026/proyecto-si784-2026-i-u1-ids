@@ -82,14 +82,11 @@ Versión *1.0*
 
 # 1. Introducción
 
-El presente Informe de Especificación de Requerimientos de Software (ERS) define, de manera verificable, las capacidades
-funcionales y no funcionales del sistema *JavaDepAnalyzer*. Este documento integra la visión académica del proyecto (
-FD02), la factibilidad evaluada (FD01) y el estado actual del código fuente para asegurar trazabilidad real entre
-requisitos, implementación y pruebas.
+El presente Informe de Especificación de Requerimientos de Software (ERS) define las funcionalidades y características del sistema TrafficWatch IDS, orientado al monitoreo de tráfico de red en tiempo real para la detección de intrusos.
 
-El sistema está orientado a analizar proyectos Java (Maven y Gradle), identificar dependencias desactualizadas, detectar
-vulnerabilidades CVE y brindar mecanismos de actualización guiada en terminal, con confirmación explícita y respaldo de
-archivos de build.
+El sistema permite capturar paquetes de red, analizarlos y detectar comportamientos sospechosos como escaneo de puertos, ataques SYN flood e ICMP flood, generando alertas que pueden ser visualizadas mediante un dashboard web.
+
+Este documento asegura la trazabilidad entre los requerimientos, la implementación y las pruebas del sistema desarrollado en el marco del curso Calidad y Pruebas de Software..
 
 # 2. Generalidades de la Empresa
 
@@ -99,13 +96,11 @@ Universidad Privada de Tacna – Facultad de Ingeniería – Escuela Profesional
 
 ## 2.2 Visión
 
-Formar profesionales líderes, innovadores y comprometidos con la calidad, capaces de desarrollar soluciones tecnológicas
-aplicadas a problemas reales del entorno.
+Ser un equipo académico capaz de proponer soluciones tecnológicas útiles, seguras y aplicables a entornos reales, fortaleciendo el aprendizaje en ingeniería de software, redes y ciberseguridad mediante proyectos prácticos y verificables.
 
 ## 2.3 Misión
 
-Brindar formación integral en ingeniería de software, promoviendo investigación aplicada, ética profesional y producción
-de software de calidad con impacto académico y social.
+Desarrollar un sistema IDS funcional que permita monitorear tráfico de red, identificar comportamientos sospechosos y generar alertas comprensibles, aplicando buenas prácticas de análisis, diseño, implementación y pruebas dentro del curso de Calidad y Pruebas de Software.
 
 ## 2.4 Organigrama
 
@@ -115,166 +110,180 @@ flowchart TD
     FI --> EPIS[Escuela Profesional de Ingeniería de Sistemas]
     EPIS --> CURSO[Curso: Calidad y Pruebas de Software]
     CURSO --> DOC[Docente Evaluador]
-    CURSO --> EQ[Equipo del Proyecto JavaDepAnalyzer]
+    CURSO --> EQ[Equipo del Proyecto TrafficWatch IDS]
 ```
 
 # 3. Visionamiento de la Empresa
 
-## 3.1 Descripcion del problema
+## 3.1 Descripción del problema
 
-En proyectos Java modernos, la gestión manual de dependencias presenta dos fallas frecuentes: (a) atraso de versiones
-con deuda técnica acumulada y (b) exposición a CVEs en dependencias directas y transitivas. La revisión manual no escala
-para árboles de dependencias medianos o grandes y dificulta tomar decisiones oportunas de mantenimiento.
+En los entornos de red, la falta de monitoreo continuo puede ocasionar que actividades sospechosas pasen desapercibidas. Ataques o comportamientos como escaneos de puertos, envío masivo de paquetes ICMP, múltiples paquetes SYN o intentos repetidos hacia servicios sensibles pueden representar señales tempranas de intrusión o reconocimiento malicioso.
 
-## 3.2 Objetivo de negocios
+En muchos laboratorios académicos o redes pequeñas no se cuenta con una herramienta accesible que permita observar este tipo de eventos en tiempo real. Esto limita la capacidad de análisis, aprendizaje y respuesta frente a incidentes básicos de seguridad de red.
 
-Reducir tiempo de diagnóstico técnico y riesgo de seguridad en proyectos Java, proporcionando una herramienta CLI/TUI
-que entregue evidencia rápida, trazable y accionable para mantenimiento de dependencias.
+Por ello, se propone el desarrollo de *TrafficWatch IDS*, un sistema de detección de intrusos orientado a capturar tráfico, analizar paquetes y generar alertas cuando se identifiquen patrones anómalos o potencialmente peligrosos.
+
+## 3.2 Objetivo de Negocios
+
+Reducir el riesgo de incidentes de seguridad en redes controladas mediante la detección temprana de comportamientos sospechosos, proporcionando una herramienta académica que permita monitorear tráfico, generar alertas y visualizar eventos de seguridad de forma comprensible.
 
 ## 3.3 Objetivo de diseño
 
-Diseñar una solución modular en Kotlin/JVM que:
+Diseñar e implementar un sistema IDS básico, modular y configurable en Python que:
 
-- detecte automáticamente tipo de proyecto,
-- parsee dependencias y repositorios,
-- consulte versiones y CVEs (OSS Index y enriquecimiento NVD opcional),
-- emita reportes legibles y JSON,
-- y habilite actualización interactiva con respaldo previo.
+- capture paquetes de red en tiempo real;
+- analice tráfico TCP e ICMP;
+- detecte escaneo de puertos, *SYN flood*, *ICMP flood*, intentos repetidos SSH y uso de puertos sospechosos;
+- registre alertas en formato JSON;
+- y permita visualizar estadísticas y eventos mediante un dashboard web.
 
 ## 3.4 Alcance del proyecto
 
 **Incluido en la versión actual:**
 
-- Análisis de proyectos Maven (`pom.xml`), Gradle Groovy (`build.gradle`) y Gradle Kotlin (`build.gradle.kts`).
-- Comandos CLI `analyze`, `tui` y `update`.
-- Detección de desactualización por consulta de metadatos de repositorios.
-- Detección de CVEs con OSS Index y enriquecimiento opcional con NVD (`--use-nvd`).
-- Clasificación de vulnerabilidades directas/transitivas y renderizado en árbol.
-- Exportación de resultados en JSON (`--output json`).
-- Actualización guiada con confirmación interactiva y backup automático (`.bak`).
+- Captura de paquetes de red usando *Scapy*.
+- Configuración de interfaz de red mediante `config.json`.
+- Detección de escaneo de puertos por cantidad de puertos distintos en una ventana de tiempo.
+- Detección de *ICMP flood* por cantidad de paquetes ICMP en una ventana de tiempo.
+- Detección de *SYN flood* por cantidad de paquetes SYN en una ventana de tiempo.
+- Detección de intentos repetidos hacia el puerto SSH.
+- Detección de conexiones hacia puertos sospechosos configurados.
+- Generación de alertas con nivel, tipo, IP origen, descripción y fecha/hora.
+- Almacenamiento de alertas en `logs/alerts.json`.
+- Dashboard web con Flask para visualizar alertas y estadísticas.
+- Endpoints API para consultar alertas, estadísticas y limpiar registros.
 
 **Fuera de alcance en la versión actual:**
 
-- Interfaz gráfica web/escritorio.
-- Actualización automática sin confirmación del usuario.
-- Reemplazo total de suites SCA empresariales de pago.
+- Bloqueo automático de direcciones IP maliciosas.
+- Integración directa con firewall.
+- Análisis profundo de paquetes cifrados.
+- Detección basada en inteligencia artificial o aprendizaje automático.
+- Integración con SIEM empresarial.
+- Gestión de usuarios y roles dentro del dashboard.
 
 ## 3.5 Viabilidad del sistema
 
-Con base en FD01, la viabilidad del sistema es **alta** en dimensiones técnica, operativa, legal, social y ambiental. El
-costo operativo del entorno académico es bajo, y la pila tecnológica empleada es open-source, madura y documentada.
+La viabilidad del sistema es alta en un contexto académico, debido a que utiliza herramientas de código abierto, requiere una infraestructura mínima y puede ejecutarse en equipos personales o de laboratorio. Python, Scapy y Flask permiten construir una solución funcional sin costos de licenciamiento, manteniendo una arquitectura simple y comprensible para fines educativos.
 
-## 3.6 Informacion obtenida del levantamiento de informacion
+Desde el punto de vista operativo, el sistema puede utilizarse en redes controladas para demostrar conceptos de monitoreo, detección de intrusos y análisis de tráfico. Desde el punto de vista legal y ético, su uso debe limitarse a redes propias, laboratorios académicos o entornos donde exista autorización explícita.
+
+## 3.6 Información obtenida del levantamiento de información
 
 Fuentes de entrada para este ERS:
 
-- Documento de factibilidad (`docs/FD01-Informe-Factibilidad.md`).
-- Documento de visión (`docs/FD02-Informe-Vision.md`).
-- Código fuente del sistema (módulos `cli`, `core`, `parser`, `repository`, `report`, `update`, `tui`).
-- README y workflows de CI/CD del repositorio.
+- Documento de visión del proyecto *TrafficWatch IDS*.
+- Código fuente del sistema IDS.
+- Archivo `README.md` del proyecto.
+- Archivo de configuración `config.json`.
+- Módulos principales del sistema: captura, análisis, gestión de alertas, almacenamiento y dashboard web.
+- Pruebas básicas realizadas en entorno local mediante generación de tráfico de red.
 
-# 4. Analisis de procesos
+# 4. Análisis de procesos
 
-## 4.1 Diagrama de procesos actual
+## 4.1 Diagrama de Procesos Actual
 
-Proceso manual sin herramienta integrada.
-
-```mermaid
-flowchart LR
-    A[Desarrollador revisa build files] --> B[Busca versiones manualmente en repositorios]
-    B --> C[Consulta CVEs en sitios externos]
-    C --> D[Consolida hallazgos manualmente]
-    D --> E[Decide actualizaciones sin trazabilidad uniforme]
-```
-
-## 4.2 Diagrama de procesos propuesto
-
-Proceso automatizado con JavaDepAnalyzer.
+Proceso manual sin herramienta IDS integrada.
 
 ```mermaid
 flowchart LR
-    A[Usuario ejecuta analyze o tui] --> B[ProjectDetector identifica tipo de proyecto]
-    B --> C[Parsers extraen dependencias y repositorios]
-    C --> D[ProjectAnalyzer consulta últimas versiones]
-    D --> E[OssIndexClient detecta CVEs]
-    E --> F{--use-nvd?}
-    F -- Sí --> G[NvdClient enriquece y fusiona CVEs]
-    F -- No --> H[Continuar con OSS Index]
-    G --> I[ReportGenerator y ConsoleRenderer]
-    H --> I
-    I --> J[Salida consola/JSON]
-    J --> K[Usuario ejecuta update para remediación guiada]
-    K --> L[Backup build file y aplicación confirmada]
+    A[Administrador o estudiante observa la red manualmente] --> B[Ejecuta comandos aislados de diagnóstico]
+    B --> C[Revisa tráfico o eventos sin centralización]
+    C --> D[Detecta problemas tarde o de forma incompleta]
+    D --> E[No existe registro uniforme de alertas]
 ```
 
-# 5. Especificacion de Requerimientos de Software
+## 4.2 Diagrama de Procesos Propuesto
 
-## 5.1 Cuadro de requerimientos funcionales inicial
+Proceso automatizado con *TrafficWatch IDS*.
 
-| ID     | Requerimiento funcional inicial   | Criterio general de aceptación                                        |
-|--------|-----------------------------------|-----------------------------------------------------------------------|
-| RFI-01 | Detectar tipo de proyecto Java    | Identifica Maven, Gradle Groovy o Gradle Kotlin con archivos estándar |
-| RFI-02 | Extraer dependencias declaradas   | Obtiene `groupId:artifactId:version` según parser correspondiente     |
-| RFI-03 | Extraer repositorios del proyecto | Lee repos configurados para consultar versiones                       |
-| RFI-04 | Detectar desactualizaciones       | Compara versión actual vs versión más reciente                        |
-| RFI-05 | Detectar CVEs                     | Consulta vulnerabilidades por dependencia                             |
-| RFI-06 | Clasificar vulnerabilidades       | Separa vulnerabilidades directas y transitivas                        |
-| RFI-07 | Mostrar resultados por consola    | Presenta resumen legible y árbol de problemas                         |
-| RFI-08 | Exportar JSON                     | Genera reporte estructurado para automatización                       |
+```mermaid
+flowchart LR
+    A[Usuario ejecuta main.py] --> B[PacketCapture inicia captura de paquetes]
+    B --> C[TrafficAnalyzer analiza paquetes TCP e ICMP]
+    C --> D{¿Coincide con una regla de detección?}
+    D -- Sí --> E[AlertManager genera alerta]
+    D -- No --> F[Continúa monitoreo]
+    E --> G[AlertStorage guarda en logs/alerts.json]
+    G --> H[Dashboard Flask consulta alertas y estadísticas]
+    H --> I[Usuario visualiza eventos en navegador]
+    F --> B
+```
 
-## 5.2 Cuadro de requerimientos no funcionales
+# 5. Especificación de Requerimientos de Software
 
-| ID     | Requerimiento no funcional | Métrica / Umbral                                               | Evidencia esperada                                           |
-|--------|----------------------------|----------------------------------------------------------------|--------------------------------------------------------------|
-| RNF-01 | Portabilidad               | Ejecución en Windows, Linux y macOS                            | Scripts generados por `installDist` y release nativo         |
-| RNF-02 | Usabilidad técnica         | Comandos con ayuda y flags consistentes                        | `--help`, documentación en README                            |
-| RNF-03 | Confiabilidad              | Manejo controlado de errores de red/parseo                     | No abortar todo el flujo por fallo parcial de fuente externa |
-| RNF-04 | Seguridad de credenciales  | Solo enviar credenciales a hosts confiables por allowlist      | `DEPANALYZER_TRUSTED_CREDENTIAL_HOSTS` aplicado              |
-| RNF-05 | Interoperabilidad          | JSON válido y estable para consumo externo                     | `--output json` parseable por scripts                        |
-| RNF-06 | Rendimiento                | Tiempo razonable en proyectos medianos (objetivo <= 30s local) | Corridas de referencia y pruebas internas                    |
-| RNF-07 | Mantenibilidad             | Arquitectura modular y tipada                                  | Separación de paquetes y cobertura de tests                  |
-| RNF-08 | Auditabilidad              | Evidencia repetible en CI/CD                                   | Workflows de test y release definidos                        |
+## 5.1 Cuadro de Requerimientos funcionales Inicial
 
-## 5.3 Cuadro de requerimientos funcionales final
+| ID     | Requerimiento funcional inicial | Criterio general de aceptación |
+|--------|---------------------------------|--------------------------------|
+| RFI-01 | Capturar paquetes de red en tiempo real | El sistema inicia captura usando una interfaz configurada o la interfaz por defecto |
+| RFI-02 | Analizar paquetes TCP | El sistema identifica IP origen, IP destino, puerto destino y banderas TCP |
+| RFI-03 | Analizar paquetes ICMP | El sistema detecta paquetes ICMP y registra su IP de origen |
+| RFI-04 | Detectar escaneo de puertos | Genera alerta si una IP accede a varios puertos distintos dentro de una ventana de tiempo |
+| RFI-05 | Detectar ICMP flood | Genera alerta si una IP envía muchos paquetes ICMP dentro de una ventana de tiempo |
+| RFI-06 | Detectar SYN flood | Genera alerta si una IP envía muchos paquetes SYN dentro de una ventana de tiempo |
+| RFI-07 | Detectar intentos repetidos SSH | Genera alerta si una IP realiza múltiples intentos hacia el puerto SSH |
+| RFI-08 | Detectar puertos sospechosos | Genera alerta si se detecta tráfico hacia puertos configurados como sensibles |
+| RFI-09 | Guardar alertas | Registra las alertas en un archivo JSON |
+| RFI-10 | Visualizar alertas | Muestra las alertas y estadísticas en un dashboard web |
 
-| ID    | Requerimiento funcional final                                                             | Prioridad | Trazabilidad técnica (módulo/código)                                                                                |
-|-------|-------------------------------------------------------------------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------|
-| RF-01 | Detectar automáticamente tipo de proyecto (`pom.xml`, `build.gradle`, `build.gradle.kts`) | Alta      | `parser/ProjectDetector.kt`                                                                                         |
-| RF-02 | Parsear dependencias Maven y Gradle                                                       | Alta      | `parser/PomDependencyParser.kt`, `parser/GradleGroovyDependencyParser.kt`, `parser/GradleKotlinDependencyParser.kt` |
-| RF-03 | Parsear repositorios del proyecto                                                         | Alta      | `parser/GradleRepositoryParser.kt`, `parser/PomDependencyParser.kt`                                                 |
-| RF-04 | Consultar versión más reciente por repositorio                                            | Alta      | `repository/RepositoryClient.kt`, `core/ProjectAnalyzer.kt`                                                         |
-| RF-05 | Detectar CVEs usando OSS Index                                                            | Alta      | `repository/OssIndexClient.kt`, `core/ProjectAnalyzer.kt`                                                           |
-| RF-06 | Enriquecer CVEs con NVD (opcional)                                                        | Media     | `repository/NvdClient.kt`, `repository/VulnerabilityMerger.kt`, flag `--use-nvd`                                    |
-| RF-07 | Clasificar vulnerabilidades directas y transitivas                                        | Alta      | `core/ProjectAnalyzer.kt`, `report/DependencyReport.kt`                                                             |
-| RF-08 | Mostrar resultados en consola con árbol de dependencias                                   | Alta      | `report/ConsoleRenderer.kt`, `report/DependencyTreeBuilder.kt`                                                      |
-| RF-09 | Exportar resultados a JSON                                                                | Alta      | `report/ReportGenerator.kt`, opción `--output json`                                                                 |
-| RF-10 | Ofrecer interfaz TUI interactiva                                                          | Media     | `tui/AnalyzeTuiApp.kt`, comando `tui` y flag `--tui`                                                                |
-| RF-11 | Ejecutar actualización guiada con selección interactiva                                   | Alta      | `cli/UpdateCommand.kt`, `update/UpdatePlanner.kt`                                                                   |
-| RF-12 | Respaldar build file antes de aplicar cambios                                             | Alta      | `update/BuildFileBackup.kt`                                                                                         |
-| RF-13 | Simular cambios sin modificar archivos (`--dry-run`)                                      | Media     | `cli/UpdateCommand.kt`                                                                                              |
-| RF-14 | Fallar proceso en CI ante CVEs críticos (`--fail-on-critical`)                            | Media     | `cli/DepAnalyzerCli.kt`                                                                                             |
+## 5.2 Cuadro de Requerimientos no funcionales
 
-## 5.4 Regla de negocio
+| ID     | Requerimiento no funcional | Métrica / Umbral | Evidencia esperada |
+|--------|----------------------------|------------------|--------------------|
+| RNF-01 | Portabilidad | Ejecución en Windows y Linux con Python 3.9 o superior | Ejecución mediante `python main.py` o `sudo python3 main.py` |
+| RNF-02 | Rendimiento | Análisis de paquetes en tiempo real en redes de laboratorio | Captura activa sin interrupción en pruebas locales |
+| RNF-03 | Usabilidad | Dashboard accesible desde navegador | Acceso a `http://127.0.0.1:5000` |
+| RNF-04 | Configurabilidad | Reglas, umbrales e interfaz definidos en `config.json` | Modificación de reglas sin cambiar código fuente |
+| RNF-05 | Confiabilidad | El sistema debe manejar archivos JSON vacíos o corruptos sin detenerse | Lectura segura de `alerts.json` |
+| RNF-06 | Mantenibilidad | Separación por módulos: captura, análisis, alertas, almacenamiento y web | Estructura organizada en carpetas `src` y `web` |
+| RNF-07 | Seguridad ética | Uso limitado a redes propias o autorizadas | Advertencia de uso ético en documentación |
+| RNF-08 | Auditabilidad | Las alertas deben quedar registradas con datos verificables | Registro en `logs/alerts.json` |
 
-| ID    | Regla de negocio                                                                                    | Aplicación                                     |
-|-------|-----------------------------------------------------------------------------------------------------|------------------------------------------------|
-| RN-01 | Ninguna actualización de dependencia se aplica sin confirmación interactiva del usuario             | Flujo `update` y flujo de actualización en TUI |
-| RN-02 | Antes de modificar `pom.xml` / `build.gradle` / `build.gradle.kts` se genera backup `.bak`          | `BuildFileBackup.ensureBackup`                 |
-| RN-03 | En caso de error de fuente externa (OSS Index/NVD), el análisis continúa con degradación controlada | Manejo de excepciones en `ProjectAnalyzer`     |
-| RN-04 | Si se usan credenciales de repositorio, solo se envían a destinos HTTPS confiables explícitos       | `InputSafety.isTrustedCredentialDestination`   |
-| RN-05 | En conflictos de token OSS Index, el token CLI tiene prioridad sobre variable de entorno            | `--oss-index-token` vs `OSS_INDEX_TOKEN`       |
-| RN-06 | El modo TUI prioriza cobertura dinámica de transitivas para análisis interactivo                    | Forzado de análisis dinámico en TUI            |
+## 5.3 Cuadro de Requerimientos funcionales Final
+
+| ID    | Requerimiento funcional final | Prioridad | Trazabilidad técnica |
+|-------|-------------------------------|-----------|----------------------|
+| RF-01 | Iniciar captura de paquetes en tiempo real | Alta | `main.py`, `src/packet_capture.py` |
+| RF-02 | Permitir configurar la interfaz de red | Media | `config.json`, `PacketCapture` |
+| RF-03 | Analizar paquetes con capa IP | Alta | `TrafficAnalyzer.analyze_packet` |
+| RF-04 | Analizar tráfico TCP | Alta | `TrafficAnalyzer._analyze_tcp` |
+| RF-05 | Analizar tráfico ICMP | Alta | `TrafficAnalyzer._analyze_icmp` |
+| RF-06 | Detectar escaneo de puertos | Alta | `TrafficAnalyzer._detect_port_scan` |
+| RF-07 | Detectar ataques ICMP flood | Alta | `TrafficAnalyzer._detect_icmp_flood` |
+| RF-08 | Detectar ataques SYN flood | Alta | `TrafficAnalyzer._detect_syn_flood` |
+| RF-09 | Detectar intentos repetidos hacia SSH | Media | `TrafficAnalyzer._detect_repeated_ssh` |
+| RF-10 | Detectar conexiones hacia puertos sospechosos | Media | `TrafficAnalyzer._detect_suspicious_port` |
+| RF-11 | Generar alertas clasificadas por nivel y tipo | Alta | `src/alert_manager.py` |
+| RF-12 | Guardar alertas en archivo JSON | Alta | `src/storage.py`, `logs/alerts.json` |
+| RF-13 | Consultar alertas mediante API | Media | `web/app.py`, endpoint `/api/alerts` |
+| RF-14 | Consultar estadísticas de alertas | Media | `web/app.py`, endpoint `/api/stats` |
+| RF-15 | Limpiar alertas registradas | Baja | `web/app.py`, endpoint `/api/clear` |
+| RF-16 | Visualizar alertas en dashboard web | Alta | `web/templates/dashboard.html`, `run_dashboard.py` |
+
+## 5.4 Reglas de Negocio
+
+| ID    | Regla de negocio | Aplicación |
+|-------|------------------|------------|
+| RN-01 | El sistema solo debe generar alertas si la regla correspondiente está habilitada | Evaluación de reglas en `config.json` |
+| RN-02 | Una alerta de escaneo de puertos se genera cuando una IP supera el umbral de puertos únicos en la ventana configurada | Regla `port_scan` |
+| RN-03 | Una alerta de ICMP flood se genera cuando una IP supera el umbral de paquetes ICMP en la ventana configurada | Regla `icmp_flood` |
+| RN-04 | Una alerta de SYN flood se genera cuando una IP supera el umbral de paquetes SYN en la ventana configurada | Regla `syn_flood` |
+| RN-05 | Una alerta de intentos SSH se genera cuando una IP supera el umbral de intentos hacia el puerto configurado | Regla `repeated_ssh` |
+| RN-06 | Una alerta de puerto sospechoso se genera cuando el puerto destino pertenece a la lista configurada | Regla `suspicious_ports` |
+| RN-07 | Todas las alertas deben persistirse en `logs/alerts.json` para consulta posterior | Módulo `AlertStorage` |
+| RN-08 | El sistema no debe bloquear tráfico automáticamente, ya que su alcance corresponde a un IDS y no a un IPS | Alcance del proyecto |
 
 # 6. Fase de Desarrollo
 
-## 6.1 Perfil del usuario
+## 6.1 Perfil del Usuario
 
-| Perfil                      | Características                           | Necesidades principales                       |
-|-----------------------------|-------------------------------------------|-----------------------------------------------|
-| Usuario técnico básico      | Usa terminal para comandos directos       | Diagnóstico rápido en consola                 |
-| Usuario técnico intermedio  | Integra herramientas con scripts          | Salida JSON y parámetros de control           |
-| Usuario técnico avanzado/CI | Automatiza control de calidad y seguridad | Exit code controlado y reportes estables      |
-| Mantenedor académico        | Evalúa trazabilidad y evidencia           | Coherencia entre documentos, código y pruebas |
+| Perfil | Características | Necesidades principales |
+|--------|-----------------|-------------------------|
+| Estudiante de redes o ciberseguridad | Ejecuta pruebas en laboratorio | Comprender cómo se detectan patrones sospechosos |
+| Administrador básico de red | Supervisa una red pequeña o controlada | Visualizar alertas e IPs sospechosas |
+| Docente evaluador | Revisa trazabilidad entre documentación, código y pruebas | Evidencia clara de funcionamiento |
+| Desarrollador académico | Mantiene o amplía el sistema | Código modular y reglas configurables |
 
 ## 6.2 Modelo Conceptual
 
@@ -282,29 +291,28 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    CLI[com.depanalyzer.cli] --> CORE[com.depanalyzer.core]
-    CLI --> TUI[com.depanalyzer.tui]
-    CLI --> UPDATE[com.depanalyzer.update]
-    CORE --> PARSER[com.depanalyzer.parser]
-    CORE --> REPO[com.depanalyzer.repository]
-    CORE --> REPORT[com.depanalyzer.report]
-    CORE --> GRAPH[com.depanalyzer.core.graph]
-    UPDATE --> CORE
-    UPDATE --> PARSER
-    REPO --> SECURITY[com.depanalyzer.security]
+    MAIN[main.py] --> CONFIG[config.json]
+    MAIN --> CAPTURE[src.packet_capture]
+    MAIN --> ANALYZER[src.analyzer]
+    MAIN --> ALERTS[src.alert_manager]
+    ALERTS --> STORAGE[src.storage]
+    DASH[run_dashboard.py] --> WEB[web.app]
+    WEB --> STORAGE
+    WEB --> TEMPLATE[web.templates.dashboard]
 ```
 
 ### 6.2.2 Diagrama de casos de uso
 
 ```mermaid
 flowchart LR
-    U[Usuario] --> UC1[Analizar proyecto]
-    U --> UC2[Exportar reporte JSON]
-    U --> UC3[Visualizar TUI]
-    U --> UC4[Actualizar dependencias guiadas]
-    U --> UC5[Ejecutar dry-run]
-    U --> UC6[Fallar build por CVE crítico]
-    UC1 --> S[JavaDepAnalyzer]
+    U[Usuario] --> UC1[Ejecutar IDS]
+    U --> UC2[Configurar interfaz y reglas]
+    U --> UC3[Visualizar dashboard]
+    U --> UC4[Consultar alertas]
+    U --> UC5[Consultar estadísticas]
+    U --> UC6[Limpiar alertas]
+
+    UC1 --> S[TrafficWatch IDS]
     UC2 --> S
     UC3 --> S
     UC4 --> S
@@ -314,51 +322,53 @@ flowchart LR
 
 ### 6.2.3 Escenarios de casos de uso (narrativas)
 
-| Caso de uso                   | Actor   | Flujo principal                                                                                | Resultado                                           |
-|-------------------------------|---------|------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| CU-01 Analizar proyecto       | Usuario | Ejecuta `analyze <ruta>`; el sistema detecta tipo, parsea, consulta versiones/CVEs y renderiza | Reporte en consola con estado de dependencias       |
-| CU-02 Exportar JSON           | Usuario | Ejecuta `analyze <ruta> --output json`                                                         | Se genera `dependency-report.json`                  |
-| CU-03 Analizar con TUI        | Usuario | Ejecuta `tui <ruta>` o `analyze --tui`; el sistema muestra progreso y paneles interactivos     | Visualización interactiva de hallazgos              |
-| CU-04 Actualizar dependencias | Usuario | Ejecuta `update <ruta>`; selecciona sugerencias; confirma                                      | Build file actualizado y backup creado              |
-| CU-05 Simular actualización   | Usuario | Ejecuta `update --dry-run`; selecciona sugerencias                                             | Resumen de cambios simulados sin modificar archivos |
+| Caso de uso | Actor | Flujo principal | Resultado |
+|-------------|-------|-----------------|-----------|
+| CU-01 Ejecutar IDS | Usuario | Ejecuta `python main.py`; el sistema carga configuración e inicia captura | El IDS queda monitoreando tráfico en tiempo real |
+| CU-02 Configurar reglas | Usuario | Edita `config.json` para cambiar umbrales, puertos o interfaz | El sistema aplica la configuración al reiniciar |
+| CU-03 Detectar amenaza | Sistema | Analiza paquetes y compara eventos con reglas configuradas | Se genera una alerta si se supera un umbral |
+| CU-04 Visualizar dashboard | Usuario | Ejecuta `python run_dashboard.py` y abre el navegador | Se muestran alertas y estadísticas |
+| CU-05 Consultar estadísticas | Usuario | El dashboard consume `/api/stats` | Se visualiza total de alertas, tipos, niveles e IPs principales |
+| CU-06 Limpiar alertas | Usuario | Solicita limpieza desde el dashboard o endpoint | El archivo de alertas queda vacío |
 
 ## 6.3 Modelo Lógico
 
-### 6.3.1 Analisis de objetos
+### 6.3.1 Análisis de Objetos
 
-| Objeto                                            | Responsabilidad                                                  | Tipo                         |
-|---------------------------------------------------|------------------------------------------------------------------|------------------------------|
-| `ProjectAnalyzer`                                 | Orquestar análisis de dependencias, versiones y vulnerabilidades | Control                      |
-| `ProjectDetector`                                 | Detectar tipo de proyecto por archivos build                     | Entidad de soporte           |
-| `PomDependencyParser` / `Gradle*DependencyParser` | Extraer dependencias y metadatos por formato                     | Servicio parser              |
-| `RepositoryClient`                                | Consultar metadatos de versión en repositorios                   | Servicio infraestructura     |
-| `OssIndexClient` / `NvdClient`                    | Consultar vulnerabilidades y enriquecer CVEs                     | Servicio integración externa |
-| `DependencyReport`                                | Representar resultado consolidado de análisis                    | DTO de dominio               |
-| `ReportGenerator` / `ConsoleRenderer`             | Transformar reporte a JSON o salida legible                      | Presentación                 |
-| `AnalyzerUpdatePlanner`                           | Planificar sugerencias de actualización                          | Lógica de negocio            |
-| `BuildFileUpdater` (+ implementaciones)           | Aplicar cambios por tipo de build file                           | Estrategia                   |
-| `BuildFileBackup`                                 | Crear respaldo previo a modificaciones                           | Seguridad operativa          |
+| Objeto | Responsabilidad | Tipo |
+|--------|-----------------|------|
+| `PacketCapture` | Iniciar la captura de paquetes usando Scapy | Servicio de captura |
+| `TrafficAnalyzer` | Analizar paquetes TCP/ICMP y aplicar reglas de detección | Control / lógica de detección |
+| `AlertManager` | Construir alertas con tipo, nivel, IP origen y descripción | Servicio de alertas |
+| `AlertStorage` | Guardar, leer y limpiar alertas en archivo JSON | Persistencia |
+| `config.json` | Definir interfaz, archivo de logs, reglas y umbrales | Configuración |
+| `Flask app` | Exponer dashboard y endpoints API | Presentación / API |
+| `dashboard.html` | Mostrar visualmente alertas y estadísticas | Interfaz de usuario |
 
-### 6.3.2 Diagrama de actividades con objetos
+### 6.3.2 Diagrama de Actividades con objetos
 
 ```mermaid
 flowchart TD
-    A([Inicio]) --> B[Usuario ejecuta analyze]
-    B --> C[ProjectDetector.detect]
-    C --> D[Parser correspondiente extrae dependencias]
-    D --> E[RepositoryClient busca versiones recientes]
-    E --> F[OssIndexClient consulta CVEs]
-    F --> G{--use-nvd}
-    G -- Sí --> H[NvdClient y VulnerabilityMerger]
-    G -- No --> I[Continuar]
-    H --> J[ProjectAnalyzer clasifica hallazgos]
-    I --> J
-    J --> K[DependencyReport]
-    K --> L{Salida}
-    L -- Consola --> M[ConsoleRenderer]
-    L -- JSON --> N[ReportGenerator]
-    M --> O([Fin])
+    A([Inicio]) --> B[Usuario ejecuta python main.py]
+    B --> C[Cargar config.json]
+    C --> D[Inicializar AlertStorage]
+    D --> E[Inicializar AlertManager]
+    E --> F[Inicializar TrafficAnalyzer]
+    F --> G[Inicializar PacketCapture]
+    G --> H[Capturar paquete]
+    H --> I{¿Tiene capa IP?}
+    I -- No --> H
+    I -- Sí --> J{¿Es TCP o ICMP?}
+    J -- TCP --> K[Analizar flags y puerto destino]
+    J -- ICMP --> L[Analizar frecuencia ICMP]
+    K --> M[Evaluar reglas TCP]
+    L --> N[Evaluar regla ICMP]
+    M --> O{¿Supera umbral?}
     N --> O
+    O -- Sí --> P[Generar alerta]
+    O -- No --> H
+    P --> Q[Guardar alerta en JSON]
+    Q --> H
 ```
 
 ### 6.3.3 Diagrama de secuencia
@@ -366,139 +376,120 @@ flowchart TD
 ```mermaid
 sequenceDiagram
     actor Usuario
-    participant CLI as DepAnalyzerCli
-    participant PA as ProjectAnalyzer
-    participant PD as ProjectDetector
-    participant Parser as Parser Maven/Gradle
-    participant RC as RepositoryClient
-    participant OI as OssIndexClient
-    participant NVD as NvdClient
-    participant RG as ReportGenerator/ConsoleRenderer
-    Usuario ->> CLI: analyze . --use-nvd --output json
-    CLI ->> PA: analyze(request)
-    PA ->> PD: detect(projectPath)
-    PD -->> PA: ProjectType
-    PA ->> Parser: parse(buildFile)
-    Parser -->> PA: dependencies + repositories
-    PA ->> RC: getLatestVersion(...)
-    RC -->> PA: latest versions
-    PA ->> OI: getVulnerabilities(dependencies)
-    OI -->> PA: CVEs OSS Index
-    PA ->> NVD: getVulnerabilities(dependencies)
-    NVD -->> PA: CVEs NVD
-    PA -->> CLI: DependencyReport
-    CLI ->> RG: toJson(report)
-    RG -->> Usuario: dependency-report.json
+    participant Main as main.py
+    participant PC as PacketCapture
+    participant TA as TrafficAnalyzer
+    participant AM as AlertManager
+    participant AS as AlertStorage
+    participant Web as Dashboard Flask
+
+    Usuario ->> Main: python main.py
+    Main ->> PC: start()
+    PC ->> TA: analyze_packet(packet)
+    TA ->> TA: evaluar reglas de detección
+    alt patrón sospechoso detectado
+        TA ->> AM: generate_alert(...)
+        AM ->> AS: save(alert)
+        AS -->> AM: alerta registrada
+    end
+    Usuario ->> Web: abrir http://127.0.0.1:5000
+    Web ->> AS: read()
+    AS -->> Web: lista de alertas
+    Web -->> Usuario: dashboard con alertas y estadísticas
 ```
 
 ### 6.3.4 Diagrama de clases
 
 ```mermaid
 classDiagram
-    class Depanalyzer
-    class Analyze
-    class Tui
-    class Update
-
-    class ProjectAnalyzer {
-        +analyze(projectDir, ...): DependencyReport
+    class PacketCapture {
+        -interface: str
+        -packet_callback
+        +start()
     }
 
-    class ProjectDetector {
-        +detect(directory): ProjectType
+    class TrafficAnalyzer {
+        -config: dict
+        -rules: dict
+        -alert_manager
+        -port_scan_history
+        -icmp_history
+        -syn_history
+        -ssh_history
+        +analyze_packet(packet)
+        -_analyze_tcp(packet, source_ip, destination_ip)
+        -_analyze_icmp(source_ip)
+        -_detect_port_scan(source_ip, destination_port)
+        -_detect_icmp_flood(source_ip)
+        -_detect_syn_flood(source_ip, flags)
+        -_detect_repeated_ssh(source_ip, destination_port)
+        -_detect_suspicious_port(source_ip, destination_port)
     }
 
-    class RepositoryClient {
-        +getLatestVersion(repository, groupId, artifactId): String?
+    class AlertManager {
+        -storage
+        +generate_alert(level, alert_type, source_ip, description)
     }
 
-    class OssIndexClient {
-        +getVulnerabilities(dependencies): Map~String, List~ Vulnerability~~
+    class AlertStorage {
+        -file_path
+        -lock
+        +save(alert)
+        +read() list
+        +clear()
     }
 
-    class NvdClient {
-        +getVulnerabilities(dependencies): Map~String, List~ Vulnerability~~
+    class FlaskDashboard {
+        +dashboard()
+        +api_alerts()
+        +api_stats()
+        +api_clear()
     }
 
-    class DependencyReport {
-        +projectName: String
-        +upToDate: List~DependencyInfo~
-        +outdated: List~OutdatedDependency~
-        +directVulnerable: List~VulnerableDependency~
-        +transitiveVulnerable: List~VulnerableDependency~
-        +dependencyTree: List~DependencyTreeNode~ ?
-    }
-
-    class AnalyzerUpdatePlanner {
-        +plan(projectDir, options): UpdatePlan
-    }
-
-    class BuildFileUpdater {
-        <<interface>>
-        +applyUpdate(file, suggestion): Boolean
-    }
-
-    class PomBuildFileUpdater
-    class GradleGroovyBuildFileUpdater
-    class GradleKotlinBuildFileUpdater
-
-    Analyze --> ProjectAnalyzer
-    Tui --> ProjectAnalyzer
-    Update --> AnalyzerUpdatePlanner
-    ProjectAnalyzer --> ProjectDetector
-    ProjectAnalyzer --> RepositoryClient
-    ProjectAnalyzer --> OssIndexClient
-    ProjectAnalyzer --> NvdClient
-    ProjectAnalyzer --> DependencyReport
-    AnalyzerUpdatePlanner --> BuildFileUpdater
-    BuildFileUpdater <|.. PomBuildFileUpdater
-    BuildFileUpdater <|.. GradleGroovyBuildFileUpdater
-    BuildFileUpdater <|.. GradleKotlinBuildFileUpdater
+    PacketCapture --> TrafficAnalyzer
+    TrafficAnalyzer --> AlertManager
+    AlertManager --> AlertStorage
+    FlaskDashboard --> AlertStorage
 ```
 
 # 7. Conclusiones
 
-1. El ERS define requerimientos verificables y trazables al código real del proyecto, reduciendo ambigüedad documental.
-2. El núcleo funcional del sistema cumple el objetivo académico: análisis integral de dependencias, versiones y
-   vulnerabilidades.
-3. La presencia de `update` y TUI confirma un alcance de remediación guiada (no automática), con controles de seguridad
-   operativa.
-4. Los requisitos no funcionales priorizan portabilidad, seguridad de credenciales, interoperabilidad y auditabilidad en
-   CI/CD.
-5. La arquitectura modular facilita mantenimiento, pruebas y evolución incremental del sistema.
+1. El sistema *TrafficWatch IDS* cumple con el objetivo de monitorear tráfico de red en tiempo real y detectar comportamientos sospechosos mediante reglas configurables.
+2. La solución implementa detecciones básicas de seguridad como escaneo de puertos, *SYN flood*, *ICMP flood*, intentos repetidos SSH y conexiones hacia puertos sensibles.
+3. El almacenamiento de alertas en formato JSON permite conservar evidencia de los eventos detectados para revisión posterior.
+4. El dashboard web facilita la visualización de alertas, estadísticas por tipo, nivel e IP sospechosa, mejorando la comprensión del estado de la red.
+5. El proyecto mantiene un alcance académico adecuado, ya que funciona como IDS de detección y alerta, sin ejecutar bloqueo automático de tráfico.
 
 # 8. Recomendaciones
 
-1. Mantener sincronizados FD01, FD02, FD03 y README al cerrar cada sprint o hito académico.
-2. Agregar una matriz formal requisito → prueba automatizada para evaluación docente y auditoría interna.
-3. Establecer línea base de rendimiento por tipo/tamaño de proyecto para medir regresiones.
-4. Fortalecer pruebas de escenarios no estándar de Gradle y repositorios privados con autenticación.
-5. Definir en siguiente iteración un historial comparativo entre ejecuciones para seguimiento temporal de riesgo.
+1. Integrar una base de datos relacional o no relacional para mejorar la persistencia y consulta histórica de alertas.
+2. Implementar autenticación en el dashboard para evitar acceso no autorizado a la información de seguridad.
+3. Agregar filtros por fecha, tipo de alerta, nivel e IP origen dentro del dashboard.
+4. Mejorar las reglas de detección para reducir falsos positivos en escenarios de tráfico legítimo intenso.
+5. Incorporar reportes exportables para evidencias de laboratorio o auditoría.
+6. Evaluar en una siguiente versión la integración con firewall, diferenciando claramente la evolución de IDS a IPS.
 
-# 9. Bibliografia
+# 9. Bibliografía
 
 1. Pressman, R. S., & Maxim, B. R. (2020). *Software Engineering: A Practitioner's Approach*.
 2. Sommerville, I. (2016). *Software Engineering*.
 3. ISO/IEC 25010:2011. *Systems and software quality models*.
-4. Sonatype. (2026). *OSS Index Documentation*.
-5. NIST. (2026). *National Vulnerability Database (NVD) Developers Guide*.
-6. Apache Software Foundation. (2026). *Maven Documentation*.
-7. Gradle Inc. (2026). *Gradle User Manual*.
-8. JetBrains. (2026). *Kotlin Documentation*.
+4. Stallings, W. (2017). *Network Security Essentials: Applications and Standards*.
+5. Scarfone, K., & Mell, P. (2007). *Guide to Intrusion Detection and Prevention Systems (IDPS)*. National Institute of Standards and Technology.
 
-# 10. Webgrafia
+# 10. Webgrafía
 
 - Repositorio del proyecto: `README.md`
-- Configuración build: `build.gradle.kts`
-- CLI principal: `src/main/kotlin/com/depanalyzer/cli/DepAnalyzerCli.kt`
-- Comando de actualización: `src/main/kotlin/com/depanalyzer/cli/UpdateCommand.kt`
-- Orquestador de análisis: `src/main/kotlin/com/depanalyzer/core/ProjectAnalyzer.kt`
-- Parsers: `src/main/kotlin/com/depanalyzer/parser/`
-- Repositorios y CVE clients: `src/main/kotlin/com/depanalyzer/repository/`
-- Reportes: `src/main/kotlin/com/depanalyzer/report/`
-- Workflows CI/CD: `.github/workflows/test.yml`, `.github/workflows/release-native.yml`
-- https://ossindex.sonatype.org/
-- https://nvd.nist.gov/developers
-- https://maven.apache.org/
-- https://docs.gradle.org/
-- https://kotlinlang.org/docs/home.html
+- Configuración del sistema: `config.json`
+- Ejecución principal del IDS: `main.py`
+- Ejecución del dashboard: `run_dashboard.py`
+- Captura de paquetes: `src/packet_capture.py`
+- Análisis de tráfico: `src/analyzer.py`
+- Gestión de alertas: `src/alert_manager.py`
+- Almacenamiento de alertas: `src/storage.py`
+- Aplicación web: `web/app.py`
+- Dashboard: `web/templates/dashboard.html`
+- https://scapy.net/
+- https://flask.palletsprojects.com/
+- https://nmap.org/
+- https://csrc.nist.gov/publications/detail/sp/800-94/final
