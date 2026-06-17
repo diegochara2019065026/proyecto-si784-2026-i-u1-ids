@@ -20,17 +20,37 @@ echo Iniciando dashboard...
 if exist "%PROJECT_DIR%.venv\Scripts\python.exe" (
     set "PYTHON_CMD=%PROJECT_DIR%.venv\Scripts\python.exe"
 ) else (
-    where python >nul 2>nul
-    if errorlevel 1 (
-        where py >nul 2>nul
+    where py >nul 2>nul
+    if not errorlevel 1 (
+        py -3 --version >nul 2>nul
+        if not errorlevel 1 set "PYTHON_CMD=py -3"
+    )
+
+    if "%PYTHON_CMD%"=="python" (
+        python --version >nul 2>nul
         if errorlevel 1 (
-            echo [ERROR] Python no esta disponible.
-            echo Ejecuta INSTALAR_TRAFFICWATCH_WINDOWS.ps1 o instala Python 3.
+            echo [ERROR] Python no esta instalado correctamente.
+            echo Windows esta abriendo el alias de Microsoft Store en vez de Python real.
+            echo.
+            echo Solucion:
+            echo   1. Instala Python desde https://www.python.org/downloads/
+            echo   2. Marca "Add Python to PATH"
+            echo   3. O desactiva el alias en:
+            echo      Configuracion ^> Aplicaciones ^> Configuracion avanzada de aplicaciones ^> Alias de ejecucion de aplicaciones
+            echo      y apaga python.exe / python3.exe
+            echo.
             pause
             exit /b 1
         )
-        set "PYTHON_CMD=py -3"
     )
+)
+
+%PYTHON_CMD% --version >nul 2>nul
+if errorlevel 1 (
+    echo [ERROR] Python no esta disponible.
+    echo Ejecuta INSTALAR_TRAFFICWATCH_WINDOWS.ps1 o instala Python 3.
+    pause
+    exit /b 1
 )
 
 echo Verificando dependencias Python...
