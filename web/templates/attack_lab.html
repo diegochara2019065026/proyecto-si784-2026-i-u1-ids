@@ -196,9 +196,9 @@
             </article>
 
             <article class="panel">
-                <h2>SYN flood</h2>
-                <p>Registra una rafaga HTTP controlada para explicar deteccion por frecuencia.</p>
-                <button onclick="sendRealTraffic('syn_flood')">Enviar trafico</button>
+                <h2>SYN controlado</h2>
+                <p>Genera trafico real limitado para validar la alerta tipo SYN sin saturar la red.</p>
+                <button onclick="sendRealTraffic('syn_flood')">Enviar prueba controlada</button>
             </article>
 
             <article class="panel">
@@ -293,6 +293,10 @@
             const options = getLabOptions();
             const result = document.getElementById("result");
             result.className = "result";
+            if (type === "syn_flood") {
+                options.total = Math.min(options.total, 30);
+                options.durationSeconds = Math.max(options.durationSeconds, 3);
+            }
             result.textContent = `Enviando ${options.total} solicitudes reales de laboratorio...`;
 
             try {
@@ -327,7 +331,7 @@
 
                 result.className = "result success";
                 result.textContent =
-                    `Trafico real enviado\nIP registrada: ${lastPayload.source_ip}\nObjetivo: ${lastPayload.target}:${lastPayload.destination_port}\nSolicitudes: ${options.total}\nDuracion: ${options.durationSeconds}s\nAlerta: ${lastPayload.alert ? lastPayload.alert.type : "registrada"}`;
+                    `Trafico real enviado\nModo: ${lastPayload.alert && lastPayload.alert.mode ? lastPayload.alert.mode : "CONTROLADO"}\nIP registrada: ${lastPayload.source_ip}\nObjetivo: ${lastPayload.target}:${lastPayload.destination_port}\nSolicitudes: ${options.total}\nDuracion: ${options.durationSeconds}s\nAlerta: ${lastPayload.alert ? lastPayload.alert.type : "registrada"}`;
             } catch (error) {
                 result.className = "result error";
                 result.textContent = error.message;

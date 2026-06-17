@@ -143,7 +143,7 @@ REMOTE_TRAFFIC_ALERTS = {
     "syn_flood": {
         "level": "ALTO",
         "type": "TRAFICO_REAL_LAB_SYN_FLOOD",
-        "description": "Trafico HTTP real de laboratorio equivalente a rafaga SYN controlada."
+        "description": "Trafico HTTP real controlado para validar deteccion de rafaga tipo SYN sin saturar la red."
     },
     "icmp_flood": {
         "level": "MEDIO",
@@ -735,12 +735,20 @@ def api_remote_lab_traffic(traffic_type):
     sequence = _bounded_int(data.get("sequence"), 1, total, 1)
     is_final = bool(data.get("final", False))
     source_ip = _request_source_ip()
+
+    if traffic_type == "syn_flood":
+        total = min(total, 30)
+        sequence = min(sequence, total)
+
     try:
         target = _validated_target(data.get("target"))
         destination_port = _bounded_int(data.get("destination_port"), 1, 65535, 5000)
         duration_seconds = _bounded_int(data.get("duration_seconds"), 1, 30, 3)
     except ValueError as error:
         return jsonify({"status": "error", "message": str(error)}), 400
+
+    if traffic_type == "syn_flood":
+        duration_seconds = max(duration_seconds, 3)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -752,7 +760,7 @@ def api_remote_lab_traffic(traffic_type):
         "destination_ip": target,
         "source_port": None,
         "destination_port": destination_port,
-        "flags": f"{traffic_type} {sequence}/{total}"
+        "flags": f"{traffic_type} CONTROLADO {sequence}/{total}"
     })
 
     alert = None
@@ -768,11 +776,13 @@ def api_remote_lab_traffic(traffic_type):
             "target_port": destination_port,
             "evidence_count": total,
             "duration_seconds": duration_seconds,
+            "mode": "CONTROLADO",
             "description": (
                 f"{template['description']} "
                 f"Origen remoto {source_ip}; objetivo declarado {target}; "
                 f"puerto declarado {destination_port}; "
-                f"solicitudes recibidas {total} en {duration_seconds}s."
+                f"solicitudes recibidas {total} en {duration_seconds}s; "
+                "modo CONTROLADO con limites de seguridad."
             )
         }
         storage.save(alert)
