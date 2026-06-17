@@ -21,6 +21,7 @@ build/
 dist/
 *.spec
 *-Windows.zip
+installer_output/
 
 .vscode/
 

@@ -170,6 +170,40 @@ El archivo generado queda en:
 dist/TrafficWatchIDS/TrafficWatchIDS.exe
 ```
 
+### Crear instalador Windows
+
+Si quieres entregar el proyecto como instalador para cualquier computadora Windows:
+
+```powershell
+CREAR_INSTALADOR_WINDOWS.bat
+```
+
+Ese comando:
+
+- Crea primero `TrafficWatchIDS.exe` si todavia no existe.
+- Usa Inno Setup para generar un instalador profesional.
+- Si Inno Setup no esta instalado, puede instalarlo con `winget`.
+- Genera el archivo final en:
+
+```text
+installer_output/TrafficWatchIDS_Setup.exe
+```
+
+En la otra computadora solo se ejecuta:
+
+```text
+TrafficWatchIDS_Setup.exe
+```
+
+Despues de instalar, se abre `TrafficWatch IDS` desde el acceso directo del escritorio o desde el menu Inicio.
+
+Nota: el dashboard empaquetado no necesita que el usuario instale Flask manualmente. Para funciones reales de red, Nmap y Npcap siguen siendo dependencias externas opcionales:
+
+- Nmap: necesario para escaneo real de puertos.
+- Npcap: necesario para captura IDS real con Scapy.
+
+El instalador agrega una opcion llamada `Instalar dependencias opcionales` para revisar o instalar esas herramientas.
+
 ## Despliegue web en Render
 
 El proyecto incluye `render.yaml`, `runtime.txt` y `gunicorn` para desplegar el dashboard.
