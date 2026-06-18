@@ -245,8 +245,17 @@ def export_alerts_csv():
         "target_ip",
         "target_port",
         "evidence_count",
+        "response_status",
+        "response_action",
+        "response_command",
         "description",
     ]
+    for alert in alerts:
+        response_action = alert.get("response_action") or {}
+        alert["response_status"] = response_action.get("status", "")
+        alert["response_action"] = response_action.get("action", "")
+        alert["response_command"] = response_action.get("windows_block_command", "")
+
     writer = csv.DictWriter(output, fieldnames=fieldnames, extrasaction="ignore")
 
     writer.writeheader()

@@ -4,6 +4,7 @@ from src.packet_capture import PacketCapture
 from src.analyzer import TrafficAnalyzer
 from src.alert_manager import AlertManager
 from src.network_utils import detect_network_info
+from src.response_actions import ActiveResponse
 from src.status_manager import StatusManager
 from src.utils import load_config, print_banner
 
@@ -60,7 +61,8 @@ def main():
 
     alert_manager = AlertManager(
         log_file=config.get("log_file", "logs/alerts.json"),
-        cooldown_seconds=config.get("alert_cooldown_seconds", 0)
+        cooldown_seconds=config.get("alert_cooldown_seconds", 0),
+        active_response=ActiveResponse(config.get("active_response", {}))
     )
     analyzer = TrafficAnalyzer(config, alert_manager, network_info=network_info)
 

@@ -574,12 +574,13 @@
                                 <th>Tipo</th>
                                 <th>IP Origen</th>
                                 <th>Objetivo</th>
+                                <th>Respuesta</th>
                                 <th>Descripci&oacute;n</th>
                             </tr>
                         </thead>
                         <tbody id="alertsTable">
                             <tr>
-                                <td colspan="7" class="empty">Sin alertas registradas</td>
+                                <td colspan="8" class="empty">Sin alertas registradas</td>
                             </tr>
                         </tbody>
                     </table>
@@ -854,12 +855,13 @@
                                 <th>Tipo</th>
                                 <th>IP Origen</th>
                                 <th>Objetivo</th>
+                                <th>Respuesta</th>
                                 <th>Descripci&oacute;n</th>
                             </tr>
                         </thead>
                         <tbody id="historyTable">
                             <tr>
-                                <td colspan="7" class="empty">Sin alertas registradas</td>
+                                <td colspan="8" class="empty">Sin alertas registradas</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1218,7 +1220,7 @@
             if (alerts.length === 0) {
                 const row = document.createElement("tr");
                 const cell = document.createElement("td");
-                cell.colSpan = 7;
+                cell.colSpan = 8;
                 cell.className = "empty";
                 cell.textContent = "Sin alertas registradas";
                 row.appendChild(cell);
@@ -1235,6 +1237,7 @@
                     alert.type,
                     alert.source_ip,
                     formatAlertTarget(alert),
+                    formatAlertResponse(alert),
                     alert.description
                 ];
 
@@ -1262,6 +1265,23 @@
             }
 
             return `${targetIp}:${targetPort}`;
+        }
+
+        function formatAlertResponse(alert) {
+            const response = alert.response_action || null;
+
+            if (!response) {
+                return "-";
+            }
+
+            const status = response.status || "RECOMENDADO";
+            const duration = response.duration_minutes ? `${response.duration_minutes} min` : "";
+
+            if (duration) {
+                return `${status} (${duration})`;
+            }
+
+            return status;
         }
 
         function getVisibleAlerts() {

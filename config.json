@@ -18,6 +18,16 @@
         "local_rules_file": "suricata/local.rules",
         "max_alerts": 100
     },
+    "active_response": {
+        "enabled": true,
+        "auto_block_enabled": false,
+        "block_minutes": 10,
+        "block_alert_types": [
+            "ICMP_FLOOD",
+            "FUERZA_BRUTA_SSH"
+        ],
+        "windows_firewall_rule_prefix": "TrafficWatch IDS Auto Block"
+    },
     "rules": {
         "port_scan": {
             "enabled": true,

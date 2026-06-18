@@ -42,6 +42,7 @@ https://github.com/diegochara2019065026/proyecto-si784-2026-i-u1-ids/releases/ta
 - Cooldown de alertas repetidas para evitar ruido.
 - Deteccion automatica de IP local, gateway, red e interfaz.
 - Clasificacion de trafico: entrante, saliente, local, gateway y externo.
+- Respuesta activa recomendada para IPs con ICMP flood o fuerza bruta SSH.
 - Dashboard web con secciones de alertas, historial, graficos, estado del IDS y trafico clasificado.
 - Exportacion de alertas en JSON y CSV.
 - Exportacion de trafico clasificado en JSON y CSV.
@@ -450,6 +451,42 @@ FUERZA_BRUTA_FTP
 FUERZA_BRUTA_SSH
 FUERZA_BRUTA_TELNET
 FUERZA_BRUTA_RDP
+```
+
+## Respuesta activa ante IP sospechosa
+
+El proyecto puede agregar una accion de respuesta junto a las alertas criticas.
+Por defecto no bloquea automaticamente: recomienda el bloqueo y muestra el comando
+de Windows Firewall dentro del registro de la alerta.
+
+Configuracion en `config.json`:
+
+```json
+"active_response": {
+    "enabled": true,
+    "auto_block_enabled": false,
+    "block_minutes": 10,
+    "block_alert_types": [
+        "ICMP_FLOOD",
+        "FUERZA_BRUTA_SSH"
+    ],
+    "windows_firewall_rule_prefix": "TrafficWatch IDS Auto Block"
+}
+```
+
+Con `auto_block_enabled` en `false`, el dashboard registra:
+
+```text
+Respuesta: RECOMENDADO (10 min)
+```
+
+Con `auto_block_enabled` en `true`, el IDS intenta crear una regla de Windows
+Firewall automaticamente. Para eso debe ejecutarse como administrador.
+
+Comando equivalente:
+
+```powershell
+New-NetFirewallRule -DisplayName "TrafficWatch IDS Auto Block FUERZA_BRUTA_SSH 192.168.1.50" -Direction Inbound -RemoteAddress 192.168.1.50 -Action Block
 ```
 
 ## Archivos de logs
