@@ -40,6 +40,11 @@ if exist "%ProgramFiles%\Inno Setup 6\ISCC.exe" (
     goto :found_iscc
 )
 
+if exist "%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe" (
+    set "INNO_ISCC=%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe"
+    goto :found_iscc
+)
+
 echo [AVISO] Inno Setup no esta instalado.
 where winget >nul 2>nul
 if errorlevel 1 (
@@ -68,6 +73,8 @@ if exist "%ProgramFiles(x86)%\Inno Setup 6\ISCC.exe" (
     set "INNO_ISCC=%ProgramFiles(x86)%\Inno Setup 6\ISCC.exe"
 ) else if exist "%ProgramFiles%\Inno Setup 6\ISCC.exe" (
     set "INNO_ISCC=%ProgramFiles%\Inno Setup 6\ISCC.exe"
+) else if exist "%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe" (
+    set "INNO_ISCC=%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe"
 ) else (
     echo [ERROR] Inno Setup se instalo, pero no se encontro ISCC.exe.
     pause

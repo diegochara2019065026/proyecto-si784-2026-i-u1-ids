@@ -26,6 +26,8 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 [Tasks]
 Name: "desktopicon"; Description: "Crear acceso directo en el escritorio"; GroupDescription: "Accesos directos:"; Flags: checkedonce
 Name: "openreadme"; Description: "Abrir guia del proyecto al finalizar"; GroupDescription: "Documentacion:"; Flags: unchecked
+Name: "installnmap"; Description: "Instalar Nmap y Npcap para escaneos y captura de red"; GroupDescription: "Herramientas opcionales:"; Flags: unchecked
+Name: "installpython"; Description: "Instalar Python 3.12 para scripts y desarrollo"; GroupDescription: "Herramientas opcionales:"; Flags: unchecked
 
 [Files]
 Source: "..\dist\TrafficWatchIDS\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -42,6 +44,44 @@ Filename: "{app}\{#MyAppExeName}"; Description: "Iniciar TrafficWatch IDS"; Flag
 Filename: "notepad.exe"; Parameters: """{app}\README.md"""; Description: "Abrir README"; Tasks: openreadme; Flags: postinstall skipifsilent
 
 [Code]
+function InstallWingetPackage(const PackageId, PackageName: String): Boolean;
+var
+  ResultCode: Integer;
+  Parameters: String;
+begin
+  Parameters := '/C winget install --id ' + PackageId +
+    ' --exact --silent --accept-package-agreements --accept-source-agreements';
+
+  Result := ShellExec('runas', ExpandConstant('{cmd}'), Parameters, '', SW_SHOWNORMAL,
+    ewWaitUntilTerminated, ResultCode);
+
+  if not Result then begin
+    MsgBox('No se pudo iniciar la instalacion de ' + PackageName +
+      '. Acepta el aviso de administrador y verifica que winget este disponible.',
+      mbError, MB_OK);
+    Exit;
+  end;
+
+  if ResultCode <> 0 then begin
+    MsgBox(PackageName + ' no se instalo correctamente. Codigo de salida: ' +
+      IntToStr(ResultCode) + '. Verifica tu conexion a Internet y winget.',
+      mbError, MB_OK);
+    Result := False;
+  end;
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if CurStep <> ssPostInstall then
+    Exit;
+
+  if WizardIsTaskSelected('installnmap') then
+    InstallWingetPackage('Insecure.Nmap', 'Nmap y Npcap');
+
+  if WizardIsTaskSelected('installpython') then
+    InstallWingetPackage('Python.Python.3.12', 'Python 3.12');
+end;
+
 function InitializeSetup(): Boolean;
 begin
   Result := True;

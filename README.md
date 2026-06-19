@@ -198,7 +198,14 @@ TrafficWatchIDS_Setup.exe
 
 Despues de instalar, se abre `TrafficWatch IDS` desde el acceso directo del escritorio o desde el menu Inicio.
 
-Nota: el dashboard empaquetado no necesita que el usuario instale Flask manualmente. Para funciones reales de red, Nmap y Npcap siguen siendo dependencias externas opcionales:
+Durante la instalacion puedes marcar estas herramientas opcionales:
+
+- `Instalar Nmap y Npcap`: descarga Nmap mediante `winget`; habilita escaneos reales y captura de red.
+- `Instalar Python 3.12`: descarga Python mediante `winget`; util para ejecutar scripts, modificar o desarrollar el proyecto.
+
+Ambas requieren conexion a Internet, `winget` y aceptar la solicitud de administrador. El dashboard empaquetado funciona sin marcar Python.
+
+Nota: el dashboard empaquetado no necesita que el usuario instale Flask ni Python manualmente para abrirlo. Para funciones reales de red, Nmap y Npcap siguen siendo dependencias externas opcionales:
 
 - Nmap: necesario para escaneo real de puertos.
 - Npcap: necesario para captura IDS real con Scapy.
