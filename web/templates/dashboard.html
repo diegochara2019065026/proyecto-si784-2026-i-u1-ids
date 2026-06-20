@@ -581,6 +581,7 @@
                 <button id="suricataNav" onclick="showView('suricata')">Suricata IPS</button>
                 <button id="historyNav" onclick="showView('history')">Historial</button>
                 <button id="rulesNav" onclick="showView('rules')">Reglas IDS</button>
+                <button type="button" onclick="openTechHubForum()">Gesti&oacute;n y an&aacute;lisis de comentarios &ndash; Tech Hub Forum</button>
             </nav>
         </aside>
 
@@ -1339,6 +1340,10 @@
             if (viewName === "network") {
                 loadNetworkDevices();
             }
+        }
+
+        function openTechHubForum() {
+            window.open("http://localhost:8081/dashboard", "_blank", "noopener");
         }
 
         function renderAlertRows(table, alerts) {
